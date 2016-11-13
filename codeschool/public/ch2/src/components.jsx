@@ -6,7 +6,7 @@ class CommentBox extends React.Component{
 				<h4 className="comment-count">2 comments</h4>
 				<div className="comment-list">
 					<Comment author="Fred" body="It sucks"/>
-					<Comment author="Austin" body="Looks great!"/>
+					<Comment author="Charity" body="Yea it does suck."/>
 				</div>
 			</div>
 		)
