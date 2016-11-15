@@ -72,13 +72,21 @@ class Comment extends React.Component{
 					<a href="#" className="comment-footer-delete">
 						Delete Comment
 					</a>
-					<a href="#" className="comment-footer-report">
+					<a href="#" className="comment-footer-report" onClick={this._isAbusive.bind(this)}>
 						Report as Abuse
 					</a>
 				</div>
 			</div>
 		)
 	}
+	_isAbusive(e){
+		e.preventDefault()
+
+		this.setState({
+			isAbusive:!this.state.isAbusive
+		})
+	}
+
 }
 
 ReactDOM.render(
