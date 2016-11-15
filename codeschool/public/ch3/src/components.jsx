@@ -1,13 +1,24 @@
 class CommentBox extends React.Component{
+	constructor(){
+		super()
+		this.state = {
+			showComments: false
+		}
+	}
 	render(){
-		const comments = this._getComments();
+		const comments = this._getComments()
+		let commentNodes
+		let buttonText = 'Show Comments'
+		if(this.state.showComments){
+			buttonText = 'Hide Comments'
+			commentNodes=<div className="comment-list">{comments}</div>
+		}
 		return(
 			<div className="comment-box">
 				<h3>Comments</h3>
 				<h4 className="comment-count">{this._getCommentsTitle(comments.length)}</h4>
-				<div className="comment-list">
-					{comments}
-				</div>
+				{commentNodes}
+				<button onClick={this._handleClick.bind(this)}>{buttonText}</button>
 			</div>
 		)
 	}
@@ -19,7 +30,7 @@ class CommentBox extends React.Component{
 		return commentList.map((comment)=>{
 			return (
 				<Comment author={comment.author} body={comment.body} key={comment.id} />
-			);
+			)
 		})
 	}
 	_getCommentsTitle(commentCount){
@@ -27,22 +38,42 @@ class CommentBox extends React.Component{
 			return 'No comments yet'
 		}else if(commentCount ===1){
 			return '1 comment'
-		}else{
+		}else{``
 			return `${commentCount} comments`
 		}
 	}
+	_handleClick(){
+		this.setState({
+			showComments: !this.state.showComments
+		})
+	}
 }
 class Comment extends React.Component{
+	constructor(){
+		super()
+		this.state={
+			isAbusive:false
+		}
+	}
 	render(){
+		let commentBody
+		if(!this.state.isAbusive){
+			commentBody = this.props.body
+		}else{
+			commentBody = <em> Content marked as abusive</em>
+		}
 		return(
 			<div className="comment">
 				<p className="comment-header">{this.props.author}</p>
 				<p className="comment-body">
-					{this.props.body}
+					{commentBody}
 				</p>
 				<div className="comment-footer">
 					<a href="#" className="comment-footer-delete">
 						Delete Comment
+					</a>
+					<a href="#" className="comment-footer-report">
+						Report as Abuse
 					</a>
 				</div>
 			</div>
@@ -52,4 +83,4 @@ class Comment extends React.Component{
 
 ReactDOM.render(
 	<CommentBox />, document.getElementById('story-app')
-);
+)
