@@ -2,7 +2,11 @@ class CommentBox extends React.Component{
 	constructor(){
 		super()
 		this.state = {
-			showComments: false
+			showComments: false,
+			comments:[
+				{id: 1, author: 'Morgain McCircuit', body: 'Great picture!'},
+				{id: 2, author: 'Fred', body: 'its all crap'}
+			]
 		}
 	}
 	render(){
@@ -15,6 +19,7 @@ class CommentBox extends React.Component{
 		}
 		return(
 			<div className="comment-box">
+				<CommentForm addComment={this._addComment.bind(this)}/>
 				<h3>Comments</h3>
 				<h4 className="comment-count">{this._getCommentsTitle(comments.length)}</h4>
 				{commentNodes}
@@ -22,12 +27,16 @@ class CommentBox extends React.Component{
 			</div>
 		)
 	}
+	_addComment(author,body){
+		const comment={
+			id: this.state.comments.length +1,
+			author,
+			body
+		}
+		this.setState({comments: this.state.comments.concat([comment])})
+	}
 	_getComments(){
-		const commentList = [
-			{id: 1, author: 'Morgain McCircuit', body: 'Great picture!'},
-			{id: 2, author: 'Fred', body: 'its all crap'}
-		]
-		return commentList.map((comment)=>{
+		return this.state.comments.map((comment)=>{
 			return (
 				<Comment author={comment.author} body={comment.body} key={comment.id} />
 			)
@@ -46,6 +55,35 @@ class CommentBox extends React.Component{
 		this.setState({
 			showComments: !this.state.showComments
 		})
+	}
+}
+class CommentForm extends React.Component{
+	constructor(){
+		super()
+	}
+	render(){
+		return(
+		<form className="comment-form" onSubmit={this._handleSubmit.bind(this)}>
+			<label> Join the discussion</label>
+			<div className="comment-form-fields">
+				<input placeholder="Name:" ref={(input)=>this._author = input}/>
+				<textarea placeholder="Comment:"ref={(textArea)=>this._body = textArea}></textarea>
+			</div>
+			<div className="comment-form-actions">
+				<button type="submit">
+					Post Comment
+				</button>
+			</div>
+		</form>
+		)
+	}
+	_handleSubmit(e){
+		e.preventDefault()
+
+		let author = this._author
+		let body = this._body
+		this.props.addComment(author.value,body.value)
+
 	}
 }
 class Comment extends React.Component{
