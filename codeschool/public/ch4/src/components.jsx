@@ -138,7 +138,6 @@ class Comment extends React.Component{
 	}
 	_deleteComment(e){
 		e.preventDefault()
-		//
 		this.props.deleteComment(this.props.id)
 	}
 }
