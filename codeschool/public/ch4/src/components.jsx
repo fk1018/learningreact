@@ -5,7 +5,7 @@ class CommentBox extends React.Component{
 			showComments: false,
 			comments:[
 				{id: 1, author: 'Morgain McCircuit', body: 'Great picture!'},
-				{id: 2, author: 'Fred', body: 'its all crap'}
+				{id: 2, author: 'Inspector Gadget', body: 'its all crap'}
 			]
 		}
 	}
@@ -38,9 +38,18 @@ class CommentBox extends React.Component{
 	_getComments(){
 		return this.state.comments.map((comment)=>{
 			return (
-				<Comment author={comment.author} body={comment.body} key={comment.id} />
+				<Comment deleteComment={this._deleteComment.bind(this)} author={comment.author} body={comment.body} id={comment.id} key={comment.id} />
 			)
 		})
+	}
+	_deleteComment(id){
+		let comments = this.state.comments;
+		if(comments.length==1){
+			comments=[]
+		}else{
+		comments = comments.splice(id-1,1)
+		}
+		this.setState({comments:comments})
 	}
 	_getCommentsTitle(commentCount){
 		if(commentCount === 0){
@@ -55,6 +64,9 @@ class CommentBox extends React.Component{
 		this.setState({
 			showComments: !this.state.showComments
 		})
+	}
+	_removeComment(commentId){
+
 	}
 }
 class CommentForm extends React.Component{
@@ -107,7 +119,7 @@ class Comment extends React.Component{
 					{commentBody}
 				</p>
 				<div className="comment-footer">
-					<a href="#" className="comment-footer-delete">
+					<a href="#" className="comment-footer-delete" onClick={this._deleteComment.bind(this)}>
 						Delete Comment
 					</a>
 					<a href="#" className="comment-footer-report" onClick={this._isAbusive.bind(this)}>
@@ -124,7 +136,12 @@ class Comment extends React.Component{
 			isAbusive:!this.state.isAbusive
 		})
 	}
-
+	_deleteComment(e){
+		e.preventDefault()
+		//console.log(e)
+		this.props.deleteComment(this.props.id)
+		//this.props.id == id
+	}
 }
 
 ReactDOM.render(
