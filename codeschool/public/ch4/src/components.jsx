@@ -47,7 +47,8 @@ class CommentBox extends React.Component{
 		if(comments.length==1){
 			comments=[]
 		}else{
-		comments = comments.splice(id-1,1)
+			//this is returning the spliced item need to think of a way to do this
+			comments = comments.splice(id-1,1)
 		}
 		this.setState({comments:comments})
 	}
@@ -138,7 +139,9 @@ class Comment extends React.Component{
 	}
 	_deleteComment(e){
 		e.preventDefault()
+		//console.log(e)
 		this.props.deleteComment(this.props.id)
+		//this.props.id == id
 	}
 }
 
