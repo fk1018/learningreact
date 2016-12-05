@@ -29,7 +29,7 @@ class CommentBox extends React.Component{
 	}
 	_addComment(author,body){
 		const comment={
-			id: this.state.comments.length +1,
+			id: Date.now(),
 			author,
 			body
 		}
@@ -47,8 +47,11 @@ class CommentBox extends React.Component{
 		if(comments.length==1){
 			comments=[]
 		}else{
-			//this is returning the spliced item need to think of a way to do this
-			comments = comments.splice(id-1,1)
+			for(let comment of comments){
+				if(comment.id == id){
+					comments.splice(comment,1)
+				}
+			}
 		}
 		this.setState({comments:comments})
 	}
@@ -65,9 +68,6 @@ class CommentBox extends React.Component{
 		this.setState({
 			showComments: !this.state.showComments
 		})
-	}
-	_removeComment(commentId){
-
 	}
 }
 class CommentForm extends React.Component{
@@ -96,7 +96,6 @@ class CommentForm extends React.Component{
 		let author = this._author
 		let body = this._body
 		this.props.addComment(author.value,body.value)
-
 	}
 }
 class Comment extends React.Component{
@@ -139,9 +138,8 @@ class Comment extends React.Component{
 	}
 	_deleteComment(e){
 		e.preventDefault()
-		//console.log(e)
+
 		this.props.deleteComment(this.props.id)
-		//this.props.id == id
 	}
 }
 
