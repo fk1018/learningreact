@@ -49,7 +49,8 @@ class CommentBox extends React.Component{
 		}else{
 			for(let comment of comments){
 				if(comment.id == id){
-					comments.splice(comment,1)
+					let index = comments.indexOf(comment)
+					comments.splice(index,1)
 				}
 			}
 		}
