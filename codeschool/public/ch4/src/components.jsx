@@ -74,6 +74,9 @@ class CommentBox extends React.Component{
 class CommentForm extends React.Component{
 	constructor(){
 		super()
+		this.state = {
+      		characters: 0
+    	}
 	}
 	render(){
 		return(
@@ -81,8 +84,9 @@ class CommentForm extends React.Component{
 			<label> Join the discussion</label>
 			<div className="comment-form-fields">
 				<input placeholder="Name:" ref={(input)=>this._author = input}/>
-				<textarea placeholder="Comment:"ref={(textArea)=>this._body = textArea}></textarea>
+				<textarea placeholder="Comment:"ref={(textArea)=>this._body = textArea} onKeyUp={this._getCharacterCount.bind(this)}></textarea>
 			</div>
+			<p>{this.state.characters} characters</p>
 			<div className="comment-form-actions">
 				<button type="submit">
 					Post Comment
@@ -93,16 +97,24 @@ class CommentForm extends React.Component{
 	}
 	_handleSubmit(e){
 		e.preventDefault()
+		
+		this.props.addComment(this._author.value,this._body.value)
 
-		let author = this._author
-		let body = this._body
-		this.props.addComment(author.value,body.value)
+		this._author.value = ''
+		this._body.value = ''
+		this.setState({characters:0})
+	}
+
+	_getCharacterCount(){
+		this.setState({
+			characters: this._body.value.length
+		})
 	}
 }
 class Comment extends React.Component{
 	constructor(){
 		super()
-		this.state={
+		this.state = {
 			isAbusive:false
 		}
 	}
