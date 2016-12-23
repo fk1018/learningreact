@@ -58,7 +58,6 @@ class CommentBox extends React.Component{
 			success:(comments)=>{
 				let commentsArr = []
 				this.setState({comments:comments})
-				console.log(this.state)
 			}
 		})
 	}
