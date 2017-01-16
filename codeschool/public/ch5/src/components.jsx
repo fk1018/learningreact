@@ -39,14 +39,10 @@ class CommentBox extends React.Component{
 	}
 	_deleteComment(id){
 		let comments = this.state.comments;
-		if(comments.length==1){
-			comments=[]
-		}else{
-			for(let comment of comments){
-				if(comment.id == id){
-					let index = comments.indexOf(comment)
-					comments.splice(index,1)
-				}
+		for(let comment of comments){
+			if(comment.id == id){
+				let index = comments.indexOf(comment)
+				comments.splice(index,1)
 			}
 		}
 		this.setState({comments:comments})
@@ -56,7 +52,6 @@ class CommentBox extends React.Component{
 			method:'GET',
 			url:'https://jsonplaceholder.typicode.com/comments',
 			success:(comments)=>{
-				let commentsArr = []
 				this.setState({comments:comments})
 			}
 		})
